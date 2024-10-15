@@ -3,29 +3,29 @@ import sys
 import random
 import time
 
-# Initialize Pygame
+
 pygame.init()
 
-# Set window dimensions
+
 WIDTH, HEIGHT = 600, 600
-GRID_SIZE = 4  # For Memory Booster
+GRID_SIZE = 4  
 CARD_SIZE = WIDTH // GRID_SIZE
-screen = pygame.display.set_mode((WIDTH, HEIGHT + 100))  # Extra space for score and timer
+screen = pygame.display.set_mode((WIDTH, HEIGHT + 100))  
 pygame.display.set_caption("Kalikuduka")
 
-# Colors
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
-# Fonts
+
 font_large = pygame.font.Font(None, 80)
 font_small = pygame.font.Font(None, 40)
 font_timer = pygame.font.Font(None, 36)
 
-# Main menu function
+
 def draw_menu():
     screen.fill(WHITE)
     title_text = font_large.render("Select a Game", True, BLACK)
@@ -42,22 +42,22 @@ def draw_menu():
 
     pygame.display.update()
 
-# Load card images for Memory Booster
+
 def load_images():
     images = []
     for i in range(1, (GRID_SIZE ** 2) // 2 + 1):
-        img = pygame.image.load(f'images/{i}.jpg')  # Ensure your images are named like '1.jpg', '2.jpg', etc.
+        img = pygame.image.load(f'images/{i}.jpg')  
         img = pygame.transform.scale(img, (CARD_SIZE, CARD_SIZE))
         images.append(img)
     return images
 
-# Generate cards for Memory Booster
+
 def generate_cards(images):
     card_values = images * 2
     random.shuffle(card_values)
     return card_values
 
-# Draw a single card
+
 def draw_card(x, y, image, flipped):
     rect = pygame.Rect(x * CARD_SIZE, y * CARD_SIZE, CARD_SIZE, CARD_SIZE)
     pygame.draw.rect(screen, GREEN if flipped else WHITE, rect)
@@ -66,13 +66,13 @@ def draw_card(x, y, image, flipped):
     if flipped:
         screen.blit(image, (x * CARD_SIZE, y * CARD_SIZE))
 
-# Draw grid of cards
+
 def draw_grid(cards, flipped):
     for y in range(GRID_SIZE):
         for x in range(GRID_SIZE):
             draw_card(x, y, cards[y * GRID_SIZE + x], flipped[y][x])
 
-# Draw score and time for Memory Booster
+
 def draw_score_and_time(moves, start_time):
     elapsed_time = round(time.time() - start_time, 2)
     score_text = font_timer.render(f"Moves: {moves}", True, BLACK)
@@ -80,7 +80,7 @@ def draw_score_and_time(moves, start_time):
     screen.blit(score_text, (20, HEIGHT + 20))
     screen.blit(time_text, (400, HEIGHT + 20))
 
-# Memory Booster Game function
+
 def memory_booster_game():
     images = load_images()
     cards = generate_cards(images)
@@ -138,14 +138,14 @@ def memory_booster_game():
 
         pygame.display.update()
 
-# Stone Paper Scissors Game function
+
 def stone_paper_scissors_game():
     choices = ["Stone", "Paper", "Scissors"]
     
     def load_images():
         images = {}
         for choice in choices:
-            img = pygame.image.load(f'images/{choice.lower()}.jpg')  # Ensure you have 'stone.jpg', 'paper.jpg', 'scissors.jpg'
+            img = pygame.image.load(f'images/{choice.lower()}.jpg')  
             img = pygame.transform.scale(img, (100, 100))
             images[choice] = img
         return images
@@ -240,30 +240,30 @@ def stone_paper_scissors_game():
 
         pygame.display.update()
 
-# Tic Tac Toe Game function
+
 def tic_tac_toe_game():
-    # Set window dimensions
+    
     LINE_WIDTH = 10
     CELL_SIZE = WIDTH // 3
     screen.fill(WHITE)
 
-    # Colors
+    
     RED = (255, 0, 0)
     BLUE = (0, 0, 255)
 
-    # Fonts for text
+    
     font = pygame.font.Font(None, 80)
 
-    # Draw grid lines
+    
     def draw_grid():
-        # Horizontal lines
+        
         pygame.draw.line(screen, BLACK, (0, CELL_SIZE), (WIDTH, CELL_SIZE), LINE_WIDTH)
         pygame.draw.line(screen, BLACK, (0, 2 * CELL_SIZE), (WIDTH, 2 * CELL_SIZE), LINE_WIDTH)
-        # Vertical lines
+        
         pygame.draw.line(screen, BLACK, (CELL_SIZE, 0), (CELL_SIZE, HEIGHT), LINE_WIDTH)
         pygame.draw.line(screen, BLACK, (2 * CELL_SIZE, 0), (2 * CELL_SIZE, HEIGHT), LINE_WIDTH)
 
-    # Function to display X and O
+    
     def draw_markers(board):
         for row in range(3):
             for col in range(3):
@@ -272,21 +272,21 @@ def tic_tac_toe_game():
                 elif board[row][col] == 'O':
                     draw_o(col, row)
 
-    # Draw X marker
+   
     def draw_x(col, row):
         pygame.draw.line(screen, RED, (col * CELL_SIZE + 20, row * CELL_SIZE + 20),
                          (col * CELL_SIZE + CELL_SIZE - 20, row * CELL_SIZE + CELL_SIZE - 20), LINE_WIDTH)
         pygame.draw.line(screen, RED, (col * CELL_SIZE + 20, row * CELL_SIZE + CELL_SIZE - 20),
                          (col * CELL_SIZE + CELL_SIZE - 20, row * CELL_SIZE + 20), LINE_WIDTH)
 
-    # Draw O marker
+    
     def draw_o(col, row):
         pygame.draw.circle(screen, BLUE, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2),
                            CELL_SIZE // 3, LINE_WIDTH)
 
-    # Check for winner
+    
     def check_winner(board):
-        # Check rows, columns, and diagonals for a winner
+        
         for row in board:
             if row[0] == row[1] == row[2] and row[0] != '':
                 return row[0]
@@ -303,28 +303,28 @@ def tic_tac_toe_game():
         # No winner yet
         return None
 
-    # Check for a tie (all cells filled)
+    
     def check_tie(board):
         for row in board:
             if '' in row:
                 return False
         return True
 
-    # Reset the game state
+   
     def reset_game():
         return [['', '', ''], ['', '', ''], ['', '', '']], 'X', False, None
 
-    # Computer move (simple random move)
+   
     def computer_move(board):
         empty_cells = [(row, col) for row in range(3) for col in range(3) if board[row][col] == '']
         if empty_cells:
             row, col = random.choice(empty_cells)
             board[row][col] = 'O'
 
-    # Main game function
-    board, player_turn, game_over, winner = reset_game()  # Initialize game state
+   
+    board, player_turn, game_over, winner = reset_game()  
 
-    # Game loop
+    
     running = True
     while running:
         screen.fill(WHITE)
@@ -332,7 +332,7 @@ def tic_tac_toe_game():
         draw_markers(board)
 
         if game_over:
-            # Display winner
+           
             if winner:
                 text = font.render(f'{winner} wins!', True, BLACK)
             else:
@@ -348,17 +348,17 @@ def tic_tac_toe_game():
                 running = False
                 sys.exit()
 
-            # Handle mouse click for placing markers
+           
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 'X':
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 clicked_row = mouse_y // CELL_SIZE
                 clicked_col = mouse_x // CELL_SIZE
 
-                # Make sure the cell is empty
+               
                 if board[clicked_row][clicked_col] == '':
                     board[clicked_row][clicked_col] = player_turn
 
-                    # Check if there's a winner
+                   
                     winner = check_winner(board)
                     if winner:
                         game_over = True
@@ -369,12 +369,12 @@ def tic_tac_toe_game():
                         # Switch player turn
                         player_turn = 'O'
 
-            # Handle 'R' key press to restart the game
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r and game_over:
                     board, player_turn, game_over, winner = reset_game()
 
-        # Computer move
+        
         if player_turn == 'O' and not game_over:
             computer_move(board)
             winner = check_winner(board)
@@ -390,7 +390,7 @@ def tic_tac_toe_game():
 
     pygame.quit()
 
-# Return to menu
+
 def return_to_menu():
     draw_menu()
     waiting = True
